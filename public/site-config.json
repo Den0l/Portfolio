@@ -1,0 +1,11 @@
+{
+  "siteTitle": "Lika",
+  "description": "Portfolio of lookbooks of styles, outfits, telegram channels and much more...",
+  "profileImage": "./images/profile.jpg",
+  "socials": [
+    { "label": "Telegram", "url": "https://t.me/fskloch" },
+    { "label": "Instagram", "url": "https://www.instagram.com/penchik202" },
+    { "label": "Pinterest", "url": "https://pin.it/5IPzVeY6z" },
+    { "label": "TikTok", "url": "https://www.tiktok.com/@penchik202" }
+  ]
+}

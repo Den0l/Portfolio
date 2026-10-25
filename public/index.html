@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio</title>
+  <link rel="stylesheet" href="./styles.css?v=20261025-audit" />
+</head>
+<body>
+  <div class="grain"></div>
+  <main class="page">
+    <section class="hero">
+      <div class="logo-wrap">
+        <div id="logoText" class="logo-text">YOUR LOGO</div>
+      </div>
+      <div class="profile-wrap">
+        <img id="profileImage" class="profile-image" alt="Profile" />
+      </div>
+      <p id="description" class="description"></p>
+      <div class="links" id="links"></div>
+    </section>
+
+    <div class="site-status" id="siteStatus" role="status" aria-live="polite"></div>
+
+    <section class="slider-section">
+      <div class="slider" id="slider">
+        <button class="slider-btn" id="sliderPrev" aria-label="Previous lookbook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+        </button>
+        <div class="slider-track" id="sliderTrack"></div>
+        <button class="slider-btn" id="sliderNext" aria-label="Next lookbook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg>
+        </button>
+      </div>
+      <div class="slider-empty" id="sliderEmpty">Your highlights will appear here.</div>
+    </section>
+
+    <section class="widgets-section">
+      <div class="section-title">Projects</div>
+      <div class="widgets" id="widgets"></div>
+    </section>
+
+  </main>
+
+  <div class="modal" id="galleryModal">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="galleryTitle">
+      <button class="modal-close" id="galleryClose">Back</button>
+      <div class="modal-title" id="galleryTitle"></div>
+      <div class="modal-grid" id="galleryGrid"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="photoModal">
+    <div class="modal-content photo-content" role="dialog" aria-modal="true" aria-label="Photo viewer">
+      <button class="modal-close" id="photoClose">Back</button>
+      <div class="photo-viewer">
+        <button class="photo-nav" id="photoPrev" aria-label="Previous photo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+        </button>
+        <img id="photoLarge" class="photo-large" alt="Photo" />
+        <button class="photo-nav" id="photoNext" aria-label="Next photo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg>
+        </button>
+      </div>
+      <div class="photo-counter" id="photoCounter"></div>
+    </div>
+  </div>
+  <script src="./app.js?v=20261025-audit"></script>
+</body>
+</html>

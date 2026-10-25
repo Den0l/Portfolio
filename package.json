@@ -1,0 +1,12 @@
+﻿{
+  "name": "static-lookbook",
+  "version": "1.0.0",
+  "description": "Static portfolio deployed to GitHub Pages",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build-projects.js"
+  }
+}

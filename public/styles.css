@@ -59,7 +59,7 @@ body::after { right: -19rem; bottom: -10rem; background: rgba(174,78,55,.12); }
 .widget-title { order: 2; padding: 1px 6px 5px; font-family: 'Playfair Display',Georgia,serif; font-size: 25px; font-weight: 600; line-height: 1.1; letter-spacing: -.04em; }
 .widget-image { position: relative; display: flex; order: 1; width: 100%; height: 236px; align-items: center; justify-content: center; overflow: hidden; border-radius: 13px; background: #dfd3c5; color: var(--soft-ink); font-size: 13px; }
 .widget-image::after { position: absolute; inset: 0; background: linear-gradient(180deg,transparent 55%,rgba(23,15,11,.17)); content: ''; pointer-events: none; }
-.widget-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .65s ease; }
+.widget-image img { width: 100%; height: 100%; object-fit: cover; transition: opacity .35s ease,transform .65s ease; }
 .widget-card:hover .widget-image img { transform: scale(1.055); }
 .site-status { display: none; color: var(--accent); font-size: 14px; text-align: center; }
 .site-status.visible { display: block; }

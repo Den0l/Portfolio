@@ -211,8 +211,15 @@ function renderProjects() {
       if (project.photos.length > 1) {
         let index = 0;
         const interval = setInterval(() => {
-          index = (index + 1) % project.photos.length;
-          img.src = project.photos[index].file;
+          const nextIndex = (index + 1) % project.photos.length;
+          img.style.opacity = '0';
+          setTimeout(() => {
+            index = nextIndex;
+            img.src = project.photos[index].file;
+            requestAnimationFrame(() => {
+              img.style.opacity = '1';
+            });
+          }, 350);
         }, 3500);
         projectIntervals.push(interval);
       }

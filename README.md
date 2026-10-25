@@ -83,27 +83,42 @@ python3 -m http.server 8000 --directory dist
 
 1. Создайте репозиторий на GitHub. Если сайт должен быть доступен всем, выберите
    **Public**. Для GitHub Pages из приватного репозитория могут применяться
-   ограничения плана аккаунта или организации.
-2. Отправьте файлы проекта в репозиторий. Например, если Git уже настроен и
-   основная ветка называется `main`:
+   ограничения плана аккаунта или организации. Если код уже находится локально,
+   создайте пустой репозиторий без добавления README, `.gitignore` и лицензии.
+2. Откройте терминал в корневой папке проекта. Назначьте ветку `main` и добавьте
+   адрес созданного GitHub-репозитория как `origin`:
 
    ```sh
+   git branch -M main
+   git remote add origin https://github.com/ВАШЕ_ИМЯ/ИМЯ_РЕПОЗИТОРИЯ.git
+   ```
+
+   Замените адрес на URL своего репозитория с GitHub. Если `origin` уже
+   существует, вместо `git remote add` используйте
+   `git remote set-url origin https://github.com/ВАШЕ_ИМЯ/ИМЯ_РЕПОЗИТОРИЯ.git`.
+3. Проверьте файлы и отправьте ветку:
+
+   ```sh
+   git status
    git add .
    git commit -m "Prepare portfolio for GitHub Pages"
-   git push origin main
+   git push -u origin main
    ```
+
+   Если `git commit` ответит, что коммитить нечего, это нормально — пропустите
+   эту команду и выполните `git push -u origin main`.
 
    Убедитесь, что в репозиторий попали папки `public/`, `projects/`,
    `scripts/`, `.github/workflows/` и файлы `package.json` и `README.md`.
    `dist/`, `node_modules/`, `.env` и старый каталог `data/` отправлять не
    требуется: они исключены через `.gitignore`.
-3. На GitHub откройте репозиторий → **Settings → Pages**.
-4. В разделе **Build and deployment** установите **Source** в
+4. На GitHub откройте репозиторий → **Settings → Pages**.
+5. В разделе **Build and deployment** установите **Source** в
    **GitHub Actions**.
-5. Откройте вкладку **Actions**. Workflow **Deploy static site to GitHub
+6. Откройте вкладку **Actions**. Workflow **Deploy static site to GitHub
    Pages** должен автоматически запуститься после `push`. Если он не запустился,
    выберите workflow и нажмите **Run workflow**.
-6. Дождитесь зелёного статуса у обеих задач — `build` и `deploy`. Адрес
+7. Дождитесь зелёного статуса у обеих задач — `build` и `deploy`. Адрес
    опубликованной страницы появится в журнале задачи `deploy`, а также на
    странице **Settings → Pages**. Первый деплой может занять несколько минут.
 
@@ -164,6 +179,12 @@ Pages доступен только в поддерживаемых конфиг
 - **Workflow сообщает об ошибке прав:** проверьте, что Actions разрешены для
   репозитория или организации. Workflow использует права `Pages: write` и
   `id-token: write` для публикации.
+- **В задаче `deploy` ошибка `Failed to create deployment (status: 404)` или
+  `Ensure GitHub Pages has been enabled`:** откройте репозиторий на GitHub →
+  **Settings → Pages**, выберите источник **GitHub Actions** и сохраните
+  настройку. Затем повторно запустите workflow во вкладке **Actions**. Если
+  раздел Pages недоступен, проверьте, разрешён ли GitHub Pages для репозитория
+  и поддерживает ли ваш план Pages для репозитория этой видимости.
 - **Страница открылась, но картинки не загрузились:** проверьте, что изображения
   добавлены в `projects/` и отправлены в GitHub, а последний запуск workflow
   завершился успешно. Не используйте локальные абсолютные пути вроде

@@ -97,11 +97,38 @@ function renderHeader() {
   descriptionEl.textContent = settings.description || '';
 
   if (settings.profileImage) {
-    profileImage.src = settings.profileImage;
-    profileImage.style.display = 'block';
+    loadProfileImage(settings.profileImage);
   } else {
     profileImage.style.display = 'none';
   }
+}
+
+function loadProfileImage(source) {
+  const extensionlessSource = source.replace(/\.(jpe?g|png)$/i, '');
+  const candidates = [...new Set([
+    source,
+    `${extensionlessSource}.png`,
+    `${extensionlessSource}.jpg`,
+    `${extensionlessSource}.jpeg`
+  ])];
+  let candidateIndex = 0;
+  const probe = new Image();
+
+  probe.onload = () => {
+    profileImage.src = candidates[candidateIndex];
+    profileImage.style.display = 'block';
+  };
+  probe.onerror = () => {
+    candidateIndex += 1;
+    if (candidateIndex < candidates.length) {
+      probe.src = candidates[candidateIndex];
+      return;
+    }
+
+    console.error(`Could not load profile image. Tried: ${candidates.join(', ')}`);
+    profileImage.style.display = 'none';
+  };
+  probe.src = candidates[candidateIndex];
 }
 
 function renderLinks() {
@@ -202,25 +229,44 @@ function renderProjects() {
     const imageWrap = document.createElement('div');
     imageWrap.className = 'widget-image';
     if (project.photos.length) {
-      const img = document.createElement('img');
-      img.src = project.photos[0].file;
-      img.alt = '';
-      img.loading = 'lazy';
-      imageWrap.appendChild(img);
+      let visibleImage = document.createElement('img');
+      visibleImage.alt = '';
+      visibleImage.loading = 'lazy';
+      visibleImage.onload = () => revealProjectImage(visibleImage);
+      visibleImage.onerror = () => {
+        console.error(`Could not load project image: ${project.photos[0].file}`);
+      };
+      visibleImage.src = project.photos[0].file;
+      imageWrap.appendChild(visibleImage);
 
       if (project.photos.length > 1) {
         let index = 0;
+        let loadingNextImage = false;
         const interval = setInterval(() => {
+          if (loadingNextImage) return;
+          loadingNextImage = true;
+          const nextImage = document.createElement('img');
+          const previousImage = visibleImage;
           const nextIndex = (index + 1) % project.photos.length;
-          img.style.opacity = '0';
-          setTimeout(() => {
-            index = nextIndex;
-            img.src = project.photos[index].file;
-            requestAnimationFrame(() => {
-              img.style.opacity = '1';
+          nextImage.alt = '';
+          nextImage.onload = () => {
+            revealProjectImage(nextImage, () => {
+              nextImage.classList.add('is-visible');
+              previousImage.classList.remove('is-visible');
+              visibleImage = nextImage;
+              index = nextIndex;
+              loadingNextImage = false;
+              setTimeout(() => previousImage.remove(), 1300);
             });
-          }, 350);
-        }, 3500);
+          };
+          nextImage.onerror = () => {
+            console.error(`Could not load project image: ${project.photos[nextIndex].file}`);
+            nextImage.remove();
+            loadingNextImage = false;
+          };
+          imageWrap.appendChild(nextImage);
+          nextImage.src = project.photos[nextIndex].file;
+        }, 4000);
         projectIntervals.push(interval);
       }
     } else {
@@ -236,6 +282,15 @@ function renderProjects() {
       }
     });
     widgetsEl.appendChild(card);
+  });
+}
+
+function revealProjectImage(image, onReveal = () => {
+  image.classList.add('is-visible');
+}) {
+  requestAnimationFrame(() => {
+    getComputedStyle(image).opacity;
+    requestAnimationFrame(onReveal);
   });
 }
 
